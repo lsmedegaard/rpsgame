@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Rock, Paper, Scissors</title>
+    <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <h1>Rock, Paper, Scissors</h1>
+
+    <div id="gamefield">
+        <div id="player1" class="player"></div>
+        <div id="player2" class="player"></div>
+        <div id="texts">
+            <div id="lose" class="hidden">
+                <h1>
+                    You lose
+                </h1>
+            </div>
+            <div id="win" class="hidden">
+                <h1>
+                    You win
+                </h1>
+            </div>
+            <div id="draw" class="hidden">
+                <h1>
+                    It's a draw
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="buttons">
+        <button class="rock"></button>
+        <button class="paper"></button>
+        <button class="scissors"></button>
+    </div>
+    <script>
+        document.querySelector("#buttons .rock").addEventListener("mousedown", pushRock);
+        document.querySelector("#buttons .paper").addEventListener("mousedown", pushPaper);
+        document.querySelector("#buttons .scissors").addEventListener("mousedown", pushScissor);
+
+        let choice = 0;
+
+        function pushRock() {
+
+            console.log("you chose rock")
+            choice = 0;
+            shakeHand(choice);
+        }
+
+
+        function pushScissor() {
+
+            console.log("you chose scissor")
+            choice = 1;
+            shakeHand(choice);
+
+        }
+
+
+        function pushPaper() {
+
+            console.log("you chose paper")
+            choice = 2;
+            shakeHand(choice);
+
+        }
+
+
+
+        function shakeHand() {
+
+            console.log("shaking")
+            document.querySelector("#player1").classList.add("shake");
+            document.querySelector("#player2").classList.add("shake");
+            document.querySelector(".shake").addEventListener("animationend", showHands);
+
+        }
+
+        function showHands() {
+            console.log("showing hands")
+
+
+            document.querySelector("#player1").classList.remove("shake");
+            document.querySelector("#player2").classList.remove("shake");
+
+
+            let randomNumber = Math.floor(Math.random() * 3);
+            console.log("bot answer " + randomNumber)
+
+
+            if (choice === 0) {
+                console.log("showing your rock")
+                document.querySelector("#player1").style["background-image"] = "url('hand_rock.png')";
+            }
+
+            if (choice === 1) {
+                console.log("showing your scissor")
+                document.querySelector("#player1").style["background-image"] = "url('hand_scissors.png')";
+            }
+
+            if (choice === 2) {
+                console.log("showing your paper")
+                document.querySelector("#player1").style["background-image"] = "url('hand_paper.png')";
+            }
+
+            if (randomNumber === 0) {
+                console.log("bot chose rock")
+                document.querySelector("#player2").style["background-image"] = "url('hand_rock.png')";
+            }
+
+            if (randomNumber === 1) {
+                console.log("bot chose scissor")
+                document.querySelector("#player2").style["background-image"] = "url('hand_scissors.png')";
+            }
+
+
+            if (randomNumber === 2) {
+                console.log("bot chose paper")
+                document.querySelector("#player2").style["background-image"] = "url('hand_paper.png')";
+            }
+
+            if (randomNumber === choice) {
+                endDraw();
+            }
+
+            if (randomNumber == 0 && choice == 1) {
+                endLose();
+            }
+
+            if (randomNumber == 0 && choice == 2) {
+                endWin();
+            }
+
+            if (choice == 0 && randomNumber == 1) {
+                endWin();
+            }
+
+            if (choice == 0 && randomNumber == 2) {
+                endLose();
+            }
+
+            if (choice == 2 && randomNumber == 1) {
+                endLose();
+            }
+
+            if (choice == 1 && randomNumber == 2) {
+                endWin();
+            }
+        }
+
+        function endWin() {
+            console.log("yay you win, best of three")
+            document.querySelector("#win").classList.remove("hidden");
+            document.querySelector("body").addEventListener("mousedown", restartGame);
+        }
+
+        function endLose() {
+            console.log("you lose try again")
+            document.querySelector("#lose").classList.remove("hidden");
+            document.querySelector("body").addEventListener("mousedown", restartGame);
+        }
+
+        function endDraw() {
+            console.log("draw try again")
+            document.querySelector("#draw").classList.remove("hidden");
+            document.querySelector("body").addEventListener("mousedown", restartGame);
+
+        }
+
+        function restartGame() {
+            console.log("restarted game");
+            document.querySelector("body").removeEventListener("mousedown", restartGame);
+            location.reload();
+        }
+
+    </script>
+</body>
+
+</html>
